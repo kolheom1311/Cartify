@@ -3,6 +3,7 @@
 import Header from '@/components/Header';
 import ProductGrid from '@/components/ProductGrid';
 import CartModal from '@/components/CartModal';
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
       <CartModal />
       <motion.section
         className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-700 dark:to-blue-900 text-white py-16"
-        variants={itemVariants}
+        variants={itemVariants} id='flyer'
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -46,21 +47,26 @@ export default function Home() {
             >
               Discover amazing products with our modern, intuitive shopping experience
             </motion.p>
-            <motion.div
-              className="inline-flex items-center bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow duration-200"
-              variants={itemVariants}
-            >
-              <span>Shop Now</span>
-              <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+            <motion.div variants={itemVariants} className='inline-block'>
+              <Button
+                className="inline-flex items-center bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow duration-200"
+                onClick={() => {
+                  const mainElement = document.getElementById('main');
+                  mainElement?.scrollIntoView({behavior: 'smooth'})
+                }}
+              >
+                <span>Shop Now</span>
+                <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Button>
             </motion.div>
           </div>
         </div>
       </motion.section>
 
       <motion.main
-        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12" id='main'
         variants={containerVariants}
       >
         <motion.div className="text-center mb-12" variants={itemVariants}>

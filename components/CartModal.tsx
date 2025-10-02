@@ -35,6 +35,44 @@ const CartModal: React.FC = () => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
 
+  const handleCheckout = async () => {
+    if (state.items.length === 0) return;
+
+    dispatch({ type: "SET_LOADING", payload: true });
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cart: state.items,
+          total: totalPrice,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success("Order Successfully Placed.", {
+          description: "A detailed invoice has been sent to your registered email address.",
+          position: "bottom-center",
+          duration: 3000
+        });
+        toast.success(`OrderID:  ${result.orderId}`,{
+          position: "top-center",
+          duration: 3000
+        })
+        dispatch({ type: "CLEAR_CART" });
+        dispatch({ type: "TOGGLE_CART" });
+      }
+    } catch (error) {
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  };
+
   return (
     <Dialog
       open={state.isOpen}
@@ -133,6 +171,7 @@ const CartModal: React.FC = () => {
                 <Button
                   size="lg"
                   className="w-full"
+                  onClick={handleCheckout}
                   disabled={state.isLoading}
                 >
                   {state.isLoading ? (
